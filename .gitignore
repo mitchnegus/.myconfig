@@ -1,11 +1,10 @@
+# Configuration files bare repo
+.myconfig
+
+# MacOS files
 .DS_Store
-.ipynb_checkpoints
-*.xls*
 
-# iTerm2 Preferences (unzipped)
-iTerm2_mitch
-
-# Vim Files
+# Vim files
 *.swp
 .netrwhist
 
@@ -44,6 +43,9 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
+# PyBuilder
+target/
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -58,8 +60,11 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
-*.log
+# Jupyter/IPython notebook files
+.ipynb_checkpoints
+
+# Sphinx documentation
+docs/_build/
 
 # Latex extras
 *.aux
@@ -68,8 +73,3 @@ coverage.xml
 *.synctex.gz
 *.bib
 
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
