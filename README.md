@@ -84,3 +84,5 @@ Since these local branches should probably not be pushed to remote systems, you 
 ```
 config config branch.<local_branch_name>.remote no_push
 ```
+
+*Note: This shortcut only prevents branches from being pushed when a remote repository is not otherwise specified (e.g., via `config push` as opposed to `config push origin <branch_name>`).
