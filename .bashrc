@@ -163,6 +163,24 @@ gpg-reload() {
 }
 
 
+# Add `-C` option to pass to clip while displaying username
+pass() {
+  local password_store="/usr/local/bin/pass"
+  _require_command "$password_store"
+  if [[ $1 == "-C" ]]; then
+    args=("$@")
+    exe_args=("${args[@]:1}")
+    # Print everything but the password to the console
+    $password_store show "${exe_args[@]}" | tail -n +2
+    echo ""
+    # Copy the password to the clipboard (with timeout)
+    $password_store -c "${exe_args[@]}"
+  else
+    $password_store $@
+  fi
+}
+
+
 pip() {
   command pip --require-virtualenv "$@"
   if [[ "$?" -ne 0 ]]; then
