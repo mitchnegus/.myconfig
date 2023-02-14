@@ -4,9 +4,6 @@
 # Set a more descriptive prompt
 PS1='[\u \W$(__git_ps1 " (%s)")]\$ '
 
-# Include custom scripts in path
-export PATH="$HOME/bin:$PATH"
-
 
 # -- LOCAL FUNCTIONS --
 
