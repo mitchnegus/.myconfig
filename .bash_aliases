@@ -25,6 +25,7 @@ alias jnb='jupyter notebook'
 # Miscellaneous (neat) tricks
 alias flw='cd $(dirname $_.)'
 alias please='sudo $(fc -ln -1)'
+alias hardclear='printf "\33c\e[3J"'
 
 # Git aliases
 alias gsta='git status'
@@ -39,3 +40,4 @@ alias gshop='git push origin gh-pages'
 alias greom='git rebase --onto main'
 alias greoh='git rebase --onto HEAD'
 alias gitadd='git add'
+alias qgit='git'
