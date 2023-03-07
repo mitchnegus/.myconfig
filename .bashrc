@@ -27,7 +27,10 @@ if [ -f ~/.bash_aliases_local ]; then
   source ~/.bash_aliases_local
 fi
 
+# Add Bash completion for macOS
+[[ -f /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
+
+
 # Include git utilities
 source ~/.git-completion.bash
 source ~/.git-prompt.sh
-
