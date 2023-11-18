@@ -16,6 +16,11 @@ gpg-reload() {
   gpgconf --reload gpg-agent
 }
 
+activate-nearest-env() {
+  env=$(find / -exec bash -c '[[ $PWD/ != "${1%/}/"* ]]' bash {} \; -prune -name *env -print | tail -n1)
+  source $env/bin/activate
+}
+
 
 # -- SOURCED SCRIPTS
 

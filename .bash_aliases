@@ -22,6 +22,9 @@ alias grepyr='grep -r --include "*.py"'
 # Shorten Jupyter notebook initialization
 alias jnb='jupyter notebook'
 
+# Shortcut for activating the "nearest" Python virtual environment
+alias activenv='activate-nearest-env'
+
 # Miscellaneous (neat) tricks
 alias flw='cd $(dirname $_.)'
 alias please='sudo $(fc -ln -1)'
