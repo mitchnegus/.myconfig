@@ -1,0 +1,10 @@
+#!/bin/bash
+
+upstream="$1"
+shift
+branches="$@"
+
+for branch in $branches; do
+  git rebase $upstream $branch
+done
+
