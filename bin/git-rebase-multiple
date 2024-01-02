@@ -6,5 +6,6 @@ branches="$@"
 
 for branch in $branches; do
   git rebase $upstream $branch
+  if [ $? -ne 0 ]; then exit; fi
 done
 
