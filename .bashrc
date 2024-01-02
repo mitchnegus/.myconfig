@@ -21,6 +21,15 @@ activate-nearest-env() {
   source $env/bin/activate
 }
 
+pip() {
+  if [ "$1" == "install" ] && [ -z $VIRTUAL_ENV ]; then
+    echo "Did you mean to run \`pip install\` outside of a virtual environment?"
+    echo "(if yes, bypass this message by using \`command pip install\` instead)"
+  else
+    command pip "$@"
+  fi
+}
+
 
 # -- SOURCED SCRIPTS
 
