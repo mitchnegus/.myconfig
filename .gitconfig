@@ -7,6 +7,7 @@
 	amend = commit --amend --no-edit
 	oust = rm --cached
 	unstage = reset HEAD --
+	brief = show -s --oneline
 	last = log -1 HEAD
 	logg = log --graph --pretty=short --all --abbrev-commit --oneline --decorate
 	stash-apply-file = "!f() { git diff stash@{0} -- $1 | git apply -R; }; f"
