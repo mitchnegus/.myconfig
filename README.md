@@ -19,7 +19,7 @@ $ config commit -m "commit message"
 The alias is defined in the `.bash_aliases` file using the command
 
 ```
-alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
+alias config='$(which git) --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 ```
 
 By setting the working tree to be in the `$HOME` directory, the configuration files will be checked out into `$HOME` (where the system will go looking for them), rather than the default Git directory `.myconfig`.

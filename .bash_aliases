@@ -1,7 +1,7 @@
 # Bash Aliases
 
 # Use `config` command for Git tracking of config files
-alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
+alias config='$(which git) --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 
 # Change directory shortcuts
 alias ..='cd ..'
