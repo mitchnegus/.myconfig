@@ -46,5 +46,5 @@ fi
 
 
 # Include git utilities
-source ~/.git-completion.bash
-source ~/.git-prompt.sh
+source ~/.git-src/contrib/completion/git-completion.bash
+source ~/.git-src/contrib/completion/git-prompt.sh

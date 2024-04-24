@@ -1,3 +1,6 @@
 [submodule ".vim"]
 	path = .vim
 	url = https://github.com/mitchnegus/.vim.git
+[submodule ".git-src"]
+	path = .git-src
+	url = https://github.com/git/git.git
