@@ -44,7 +44,8 @@ fi
 # Add Bash completion for macOS
 [[ -f /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
 
-
-# Include git utilities
-source ~/.git-src/contrib/completion/git-completion.bash
-source ~/.git-src/contrib/completion/git-prompt.sh
+# Include Git utilities (if not yet included)
+git_src_repo="$HOME/.git-src"
+git_util_dir="$git_src_repo/contrib/completion"
+declare -F __git_complete > /dev/null || source "$git_util_dir/git-completion.bash"
+declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
