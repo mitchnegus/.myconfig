@@ -12,14 +12,17 @@
 	logg = log --graph --pretty=short --all --abbrev-commit --oneline --decorate
 	stash-apply-file = "!f() { git diff stash@{0} -- $1 | git apply -R; }; f"
 	rebase-multiple = "!git-rebase-multiple"
-[log]
-	date = local
 [init]
 	defaultBranch = main
+[log]
+	date = local
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[lfs]
+	cachecredentials = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[lfs]
-	cachecredentials = true
