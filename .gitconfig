@@ -10,6 +10,7 @@
 	brief = show -s --oneline
 	last = log -1 HEAD
 	logg = log --graph --pretty=short --all --abbrev-commit --oneline --decorate
+	combine = "!: pull && git checkout ${2} && git merge ${1}/${2}"
 	stash-apply-file = "!f() { git diff stash@{0} -- $1 | git apply -R; }; f"
 	rebase-multiple = "!: rebase && git-rebase-multiple"
 [init]
