@@ -1,0 +1,69 @@
+#!/bin/bash
+# Set bash color schemes and provide color utilities
+# Be aware that these colors may not work on all terminals (in that case, see `tput`)
+
+export COLOR_NORMAL='\e[0m'
+
+# 4-bit colors
+declare -A colors_4bit
+colors_4bit["BLACK"]=30
+colors_4bit["MAROON"]=31
+colors_4bit["GREEN"]=32
+colors_4bit["OLIVE"]=33
+colors_4bit["NAVY"]=34
+colors_4bit["PURPLE"]=35
+colors_4bit["TEAL"]=36
+colors_4bit["SILVER"]=37
+colors_4bit["GRAY"]=90
+colors_4bit["RED"]=91
+colors_4bit["LIME"]=92
+colors_4bit["YELLOW"]=93
+colors_4bit["BLUE"]=94
+colors_4bit["FUSCHIA"]=95
+colors_4bit["AQUA"]=96
+colors_4bit["WHITE"]=97
+for color in ${!colors_4bit[@]}; do
+  export COLOR_${color}_FG="\e[0;${colors_4bit[$color]}m"
+  export COLOR_${color}_BG="\e[0;$((${colors_4bit[$color]}+10))m"
+  export COLOR_${color}_FG_BOLD="\e[1;${colors_4bit[$color]}m"
+  export COLOR_${color}_BG_BOLD="\e[1;$((${colors_4bit[$color]}+10))m"
+done
+
+term_color=$(echo $TERM | cut -d'-' -f2)
+if [ $term_color != "256color" ]; then
+  # 256 Colors named according to the closest "Name that Color" match
+  # (https://chir.ag/projects/name-that-color)
+  declare -A colors
+  colors["BLACK"]=0  # ------------ #000000
+  colors["MAROON"]=1  # ----------- #800000
+  colors["JAPANESE_LAUREL"]=2  # -- #008000
+  colors["YELLOW"]=3  # ----------- #ffff00
+  colors["MALIBU"]=81  # ---------- #5fd7ff
+  colors["CHARTREUSE"]=118  # ----- #87ff00
+  for color in ${!colors[@]}; do
+    export COLOR_${color}_FG=$"\e[38;5;${colors[$color]}m"
+    export COLOR_${color}_BG=$"\e[48;5;${colors[$color]}m"
+  done
+fi
+
+
+# Print a grid of the available colors
+# (adapted from Plasmarob: https://unix.stackexchange.com/a/285956)
+colorgrid() {
+  local counter=16
+  while [ $counter -lt 52 ]; do
+    for column in {0..6}; do
+      local code=$(( $counter+$column*36 ))
+      if [ $column -eq 6 ] && [ $code -gt 250 ]; then (( code-=251 )); fi
+      printf "   \033[38;5;${code}m█ %03d" $code
+    done
+    (( counter += 1 ))
+    printf '\r\n'
+  done
+}
+
+
+rainbowgrid() {
+  # https://www.hackitu.de/termcolor256/#rainbow_colors_palette
+  echo "Rainbow grid not yet implemented"
+}

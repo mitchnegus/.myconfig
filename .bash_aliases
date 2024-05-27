@@ -10,10 +10,24 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
+# Sort the output of printenv
+if printenv -0 &> /dev/null; then
+  # Use non-standard extensions in GNU coreutils version of `printenv`
+  # (https://stackoverflow.com/a/60756021)
+  alias printenv='printenv -0 | sort -z | tr "\0" "\n"'
+else
+  alias printenv='printenv | grep -v "COLOR*" | sort'
+fi
+
 # Abbreviate commonly used commands
+alias ls='ls $LS_OPTIONS'
 alias la='ls -la'
 alias lh='ls -lh'
+alias grep='grep $GREP_OPTIONS'
+alias egrep='egrep $GREP_OPTIONS'
+alias fgrep='fgrep $GREP_OPTIONS'
 alias back='cd -'
+alias bashrcload='source $HOME/.bashrc'
 
 # Abbreviate commonly used grep options
 alias grepr='grep -r'

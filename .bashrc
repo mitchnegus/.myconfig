@@ -1,8 +1,50 @@
+# -- BASH SETTINGS & VARIABLES --
+
+# Append to history file (do not overwrite)
+shopt -s histappend
+# Use `**` for directory wildcard expansion
+shopt -s globstar
+
+# Control history settings
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=3000
+HISTTIMEFORMAT="%F %T "
+
 
 # -- ENVIRONMENT VARIABLES --
 
-# Set a more descriptive prompt
-PS1='[\u \W$(__git_ps1 " (%s)")]\$ '
+# Set options for commonly used commands
+export LS_OPTIONS='--color=auto'
+export GREP_OPTIONS='--color=auto'
+# Use colors on BSD-based systems
+export CLICOLOR=1
+export LSCOLORS=cxfxcxdxCxegedabagacad
+# Use colors on Linux-based systems
+export LS_COLORS='di=32:ln=35:so=32:pi=33:ex=1;32:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+
+
+# -- SOURCED SCRIPTS --
+
+scripts=(
+  # Include Bash aliases
+  "$HOME/.bash_aliases"
+  "$HOME/.bash_aliases_local"
+  # Include Bash prompt/color utilities
+  "$HOME/.bash_colors"
+  "$HOME/.bash_prompt"
+  # Activate Bash completion (primarily for macOS)
+  "/usr/local/etc/bash_completion"
+)
+for script in ${scripts[@]}; do
+  [[ -f $script ]] && source $script
+done
+
+# Include Git utilities (if not yet included)
+git_src_repo="$HOME/.git-src"
+git_util_dir="$git_src_repo/contrib/completion"
+declare -F __git_complete > /dev/null || source "$git_util_dir/git-completion.bash"
+declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
 
 
 # -- LOCAL FUNCTIONS --
@@ -17,7 +59,7 @@ gpg-reload() {
 }
 
 activate-nearest-env() {
-  env=$(find / -exec bash -c '[[ $PWD/ != "${1%/}/"* ]]' bash {} \; -prune -name *env -print | tail -n1)
+  local env=$(find / -exec bash -c '[[ $PWD/ != "${1%/}/"* ]]' bash {} \; -prune -name *env -print | tail -n1)
   source $env/bin/activate
 }
 
@@ -29,23 +71,3 @@ pip() {
     command pip "$@"
   fi
 }
-
-
-# -- SOURCED SCRIPTS
-
-# Include bash aliases
-if [ -f ~/.bash_aliases ]; then
-  source ~/.bash_aliases
-fi
-if [ -f ~/.bash_aliases_local ]; then
-  source ~/.bash_aliases_local
-fi
-
-# Add Bash completion for macOS
-[[ -f /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
-
-# Include Git utilities (if not yet included)
-git_src_repo="$HOME/.git-src"
-git_util_dir="$git_src_repo/contrib/completion"
-declare -F __git_complete > /dev/null || source "$git_util_dir/git-completion.bash"
-declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
