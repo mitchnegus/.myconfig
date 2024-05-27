@@ -1,12 +1,16 @@
 #!/bin/bash
 # Set a more descriptive prompt
 
+# Set remote to `true` to show the hostname
+remote=false
+
 _prompt_line="\342\224\200"
 # `\x01\` and `\x02` ensure white space is not counted on measured text width
 _prompt_normal="\x01${COLOR_NORMAL@E}\x02"
 _prompt_gray="\x01${COLOR_GRAY_FG@E}\x02"
 _prompt_red="\x01${COLOR_RED_FG@E}\x02"
 _prompt_green="\x01${COLOR_GREEN_FG@E}\x02"
+_prompt_lime="\x01${COLOR_LIME_FG@E}\x02"
 _prompt_red_bold="\x01${COLOR_RED_FG_BOLD@E}\x02"
 _prompt_red_bold="\x01${COLOR_RED_FG_BOLD@E}\x02"
 _prompt_green_bold="\x01${COLOR_GREEN_FG_BOLD@E}\x02"
@@ -17,7 +21,11 @@ _prompt_white_bold="\x01${COLOR_WHITE_FG_BOLD@E}\x02"
 
 _form_prompt_line1() {
   local _prompt_open_l1="${_prompt_gray}\342\224\214${_prompt_line}"
-  local _prompt_user="[${_prompt_green}\u${_prompt_gray}]${_prompt_line}"
+  if [ $remote == true ]; then
+    local _prompt_user="[${_prompt_lime}\u${_prompt_green}@\h${_prompt_gray}]${_prompt_line}"
+  else
+    local _prompt_user="[${_prompt_green}\u${_prompt_gray}]${_prompt_line}"
+  fi
   local _prompt_dir="[${_prompt_green}\w${_prompt_gray}]"
   local _prompt_x="\342\234\227"
   local _prompt_error="\$([[ \$? != 0 ]] && echo \"[${_prompt_red}${_prompt_x}${_prompt_gray}]${_prompt_line}\")"
