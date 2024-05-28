@@ -49,7 +49,7 @@ declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
 if [ -z $(which diff-highlight) ] && [ -f "$git_diff_highlight_dir/Makefile" ]; then
   # `diff-highlight` has not already been built/installed; build and install it
   make -C $git_diff_highlight_dir
-  ln -s $git_diff_highlight_dir/diff-highlight /usr/local/bin/diff-highlight
+  ln -s $git_diff_highlight_dir/diff-highlight $HOME/bin/diff-highlight
 fi
 
 

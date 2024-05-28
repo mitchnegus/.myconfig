@@ -26,7 +26,8 @@
 	diffFilter = diff-highlight
 [pager]
 	diff = diff-highlight | less
-	log = diff-highlight | less
+	# Add a newline to the Git log pager to account for the two-line prompt
+	log = "(printf '\n'; diff-highlight) | less"
 	show = diff-highlight | less
 [lfs]
 	cachecredentials = true
