@@ -43,8 +43,14 @@ done
 # Include Git utilities (if not yet included)
 git_src_repo="$HOME/.git-src"
 git_util_dir="$git_src_repo/contrib/completion"
+git_diff_highlight_dir=$git_src_repo/contrib/diff-highlight
 declare -F __git_complete > /dev/null || source "$git_util_dir/git-completion.bash"
 declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
+if [ -z $(which diff-highlight) ] && [ -f "$git_diff_highlight_dir/Makefile" ]; then
+  # `diff-highlight` has not already been built/installed; build and install it
+  make -C $git_diff_highlight_dir
+  ln -s $git_diff_highlight_dir/diff-highlight /usr/local/bin/diff-highlight
+fi
 
 
 # -- LOCAL FUNCTIONS --
