@@ -15,8 +15,8 @@ HISTTIMEFORMAT="%F %T "
 # -- ENVIRONMENT VARIABLES --
 
 # Set options for commonly used commands
-export LS_OPTIONS='--color=auto'
-export GREP_OPTIONS='--color=auto'
+export LS_OPTIONS_='--color=auto'
+export GREP_OPTIONS_='--color=auto'
 # Use colors on BSD-based systems
 export CLICOLOR=1
 export LSCOLORS=cxfxcxdxCxegedabagacad

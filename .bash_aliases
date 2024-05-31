@@ -23,9 +23,7 @@ fi
 alias ls='ls $LS_OPTIONS'
 alias la='ls -la'
 alias lh='ls -lh'
-alias grep='grep $GREP_OPTIONS'
-alias egrep='egrep $GREP_OPTIONS'
-alias fgrep='fgrep $GREP_OPTIONS'
+alias grep='grep $GREP_OPTIONS_'
 alias back='cd -'
 alias bashrcload='source $HOME/.bashrc'
 

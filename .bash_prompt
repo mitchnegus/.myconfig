@@ -1,41 +1,44 @@
 #!/bin/bash
 # Set a more descriptive prompt
 
+# Revert to lightweight prompt on low-resource machines
+lite=false
 # Set remote to `true` to show the hostname
 remote=false
 
-_prompt_line="\342\224\200"
+declare -A prompt
+prompt['line']="\342\224\200"
 # `\x01\` and `\x02` ensure white space is not counted on measured text width
-_prompt_normal="\x01${COLOR_NORMAL@E}\x02"
-_prompt_gray="\x01${COLOR_GRAY_FG@E}\x02"
-_prompt_red="\x01${COLOR_RED_FG@E}\x02"
-_prompt_green="\x01${COLOR_GREEN_FG@E}\x02"
-_prompt_lime="\x01${COLOR_LIME_FG@E}\x02"
-_prompt_red_bold="\x01${COLOR_RED_FG_BOLD@E}\x02"
-_prompt_red_bold="\x01${COLOR_RED_FG_BOLD@E}\x02"
-_prompt_green_bold="\x01${COLOR_GREEN_FG_BOLD@E}\x02"
-_prompt_yellow_bold="\x01${COLOR_YELLOW_FG_BOLD@E}\x02"
-_prompt_blue_bold="\x01${COLOR_BLUE_FG_BOLD@E}\x02"
-_prompt_white_bold="\x01${COLOR_WHITE_FG_BOLD@E}\x02"
+prompt['normal']="\x01${COLOR_NORMAL@E}\x02"
+prompt['gray']="\x01${COLOR_GRAY_FG@E}\x02"
+prompt['red']="\x01${COLOR_RED_FG@E}\x02"
+prompt['green']="\x01${COLOR_GREEN_FG@E}\x02"
+prompt['lime']="\x01${COLOR_LIME_FG@E}\x02"
+prompt['red_bold']="\x01${COLOR_RED_FG_BOLD@E}\x02"
+prompt['red_bold']="\x01${COLOR_RED_FG_BOLD@E}\x02"
+prompt['green_bold']="\x01${COLOR_GREEN_FG_BOLD@E}\x02"
+prompt['yellow_bold']="\x01${COLOR_YELLOW_FG_BOLD@E}\x02"
+prompt['blue_bold']="\x01${COLOR_BLUE_FG_BOLD@E}\x02"
+prompt['white_bold']="\x01${COLOR_WHITE_FG_BOLD@E}\x02"
 
 
 _form_prompt_line1() {
-  local _prompt_open_l1="${_prompt_gray}\342\224\214${_prompt_line}"
+  local _prompt_open_l1="${prompt['gray']}\342\224\214${prompt['line']}"
   if [ $remote == true ]; then
-    local _prompt_user="[${_prompt_lime}\u${_prompt_green}@\h${_prompt_gray}]${_prompt_line}"
+    local _prompt_user="[${prompt['lime']}\u${prompt['green']}@\h${prompt['gray']}]${prompt['line']}"
   else
-    local _prompt_user="[${_prompt_green}\u${_prompt_gray}]${_prompt_line}"
+    local _prompt_user="[${prompt['green']}\u${prompt['gray']}]${prompt['line']}"
   fi
-  local _prompt_dir="[${_prompt_green}\w${_prompt_gray}]"
+  local _prompt_dir="[${prompt['green']}\w${prompt['gray']}]"
   local _prompt_x="\342\234\227"
-  local _prompt_error="\$([[ \$? != 0 ]] && echo \"[${_prompt_red}${_prompt_x}${_prompt_gray}]${_prompt_line}\")"
+  local _prompt_error="\$([[ \$? != 0 ]] && echo \"[${prompt['red']}${_prompt_x}${prompt['gray']}]${prompt['line']}\")"
   local _prompt_git="\$(_form_git_prompt)"
-  echo "${_prompt_open_l1}${_prompt_error}${_prompt_user}${_prompt_dir}${_prompt_git}"
+  echo "${_prompt_open_l1}${_prompt_error}${_prompt_user}${_prompt_dir}${_prompt_git}${prompt['normal']}"
 }
 
 _form_prompt_line2() {
-  local _prompt_open_l2="${_prompt_gray}\342\224\224${_prompt_line}${_prompt_line}\342\225\274"
-  echo "${_prompt_open_l2} ${_prompt_gray}\$${_prompt_normal} "
+  local _prompt_open_l2="${prompt['gray']}\342\224\224${prompt['line']}${prompt['line']}\342\225\274"
+  echo "${_prompt_open_l2} ${prompt['gray']}\$${prompt['normal']} "
 }
 
 
@@ -45,32 +48,38 @@ _form_prompt_line2() {
 _assign_prompt_git_color() {
   local status=$1
   # Staged and ready to commit changes
-  local staged=$([[ -n $(egrep '^[MADRC]' <<< "$status") ]] && echo true)
+  local staged=$([[ -n $(grep -E '^[MADRC]' <<< "$status") ]] && echo true)
   # Unstaged and untracked changes
-  local unstaged=$([[ -n $(egrep '^.[MD]' <<< "$status") ]] && echo true)
-  local untracked=$([[ -n $(egrep '^\?\?' <<< "$status") ]] && echo true)
+  local unstaged=$([[ -n $(grep -E '^.[MD]' <<< "$status") ]] && echo true)
+  local untracked=$([[ -n $(grep -E '^\?\?' <<< "$status") ]] && echo true)
   local dirty=$([ -n "$unstaged" ] || [ -n "$untracked" ] && echo true)
   # Committed changes ready to be pushed
   local needs_push=$([[ -n $(egrep 'ahead' <<< "$status") ]] && echo true)
   if [[ -n $staged ]] && [[ -n $dirty ]]; then
-    echo "${_prompt_yellow_bold}"
+    echo "${prompt['yellow_bold']}"
   elif [[ -n $staged ]]; then
-    echo "${_prompt_green_bold}"
+    echo "${prompt['green_bold']}"
   elif [[ -n $dirty ]]; then
-    echo "${_prompt_red_bold}"
+    echo "${prompt['red_bold']}"
   elif [[ -n $needs_push ]]; then
-    echo "${_prompt_blue_bold}"
+    echo "${prompt['blue_bold']}"
   else
-    echo "${_prompt_white_bold}"
+    echo "${prompt['white_bold']}"
   fi
 }
 
 _form_git_prompt() {
-  local status="$(git status --porcelain --branch 2> /dev/null)"
-  local color="$(_assign_prompt_git_color "$status")"
-  echo "${_prompt_normal}${color}$(__git_ps1)${_prompt_normal}"
+  local git_prompt=$(__git_ps1 '%s')
+  if [ -n "$git_prompt" ]; then
+    local status="$(git status --porcelain --branch 2> /dev/null)"
+    local color="$(_assign_prompt_git_color "$status")"
+    echo "${prompt['line']}(${color}${git_prompt}${prompt['gray']})"
+  fi
 }
 
 
-PS1="\$(printf \"$(_form_prompt_line1)\n$(_form_prompt_line2)\")"
-
+if [ $lite == true ]; then
+  PS1='[\u \W$(__git_ps1 " (%s)")]\$ '
+else
+  PS1="\$(printf \"$(_form_prompt_line1)\n$(_form_prompt_line2)\")"
+fi
