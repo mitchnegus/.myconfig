@@ -50,8 +50,9 @@ git_diff_highlight_dir=$git_src_repo/contrib/diff-highlight
 declare -F __git_complete > /dev/null || source "$git_util_dir/git-completion.bash"
 declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
 if [ -z $(which diff-highlight) ] && [ -f "$git_diff_highlight_dir/Makefile" ]; then
-  # `diff-highlight` has not already been built/installed; build and install it
-  make -C $git_diff_highlight_dir
+  echo "An executable for \`diff-highlight\` was not found in the PATH;" \
+       "attempting to build it from the local Git source repository"
+  make -C $git_diff_highlight_dir --no-print-directory
   ln -s $git_diff_highlight_dir/diff-highlight $HOME/bin/diff-highlight
 fi
 
