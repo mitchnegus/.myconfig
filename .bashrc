@@ -22,6 +22,8 @@ export CLICOLOR=1
 export LSCOLORS=cxfxcxdxCxegedabagacad
 # Use colors on Linux-based systems
 export LS_COLORS='di=32:ln=35:so=32:pi=33:ex=1;32:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+# Deactivate the default Python virtual environment prompt
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Add local scripts to the path
 PATH="$HOME/bin:$PATH"
