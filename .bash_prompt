@@ -6,6 +6,9 @@ lite=false
 # Set remote to `true` to show the hostname
 remote=false
 
+# Abbreviate long directory names
+PROMPT_DIRTRIM=5
+
 declare -A prompt
 prompt['line']="\342\224\200"
 # `\x01\` and `\x02` ensure white space is not counted on measured text width
