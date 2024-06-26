@@ -4,6 +4,7 @@
 [color]
 	ui = auto
 [alias]
+	alias = "! git config --get-regexp ^alias\\. | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'"
 	amend = commit --amend --no-edit
 	oust = rm --cached
 	unstage = reset HEAD --
