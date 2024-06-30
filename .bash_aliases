@@ -20,7 +20,7 @@ else
 fi
 
 # Abbreviate commonly used commands
-alias ls='ls $LS_OPTIONS'
+alias ls='ls $LS_OPTIONS_'
 alias la='ls -la'
 alias lh='ls -lh'
 alias grep='grep $GREP_OPTIONS_'
