@@ -28,6 +28,9 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Add local scripts to the path
 PATH="$HOME/bin:$PATH"
 
+# Set parameters for a local default Python virtual environment
+export DEFAULT_VENV="$HOME/.default-venv"
+
 
 # -- SOURCED SCRIPTS --
 
@@ -60,6 +63,23 @@ fi
 
 
 # -- LOCAL FUNCTIONS --
+
+build-default-venv() {
+  if [ ! -d $DEFAULT_VENV ]; then
+    python3 -m venv $DEFAULT_VENV
+  fi
+  local dependencies="pip rich"
+  $DEFAULT_VENV/bin/python -m pip install --upgrade $dependencies
+}
+
+render-markdown() {
+  local DEFAULT_VENV_PYTHON="${DEFAULT_VENV}/bin/python"
+  if [ -f "$DEFAULT_VENV_PYTHON" ]; then
+    $DEFAULT_VENV_PYTHON -m rich.markdown $@
+  else
+    echo "The default environment \`$DEFAULT_VENV\` does not seem to exist."
+  fi
+}
 
 # Force gpg-agent to prompt password without waiting for the cache to clear
 gpg-reload() {
