@@ -48,6 +48,9 @@ for script in ${scripts[@]}; do
   [[ -f $script ]] && source $script
 done
 
+
+# -- LOCAL SCRIPTS --
+
 # Include Git utilities (if not yet included)
 git_src_repo="$HOME/.git-src"
 git_util_dir="$git_src_repo/contrib/completion"
@@ -63,6 +66,8 @@ fi
 
 
 # -- LOCAL FUNCTIONS --
+
+cdl() { cd $1; ls; }
 
 build-default-venv() {
   if [ ! -d $DEFAULT_VENV ]; then
