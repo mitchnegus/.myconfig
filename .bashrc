@@ -101,10 +101,9 @@ activate-nearest-env() {
 }
 
 pip() {
-  if [ "$1" == "install" ] && [ -z $VIRTUAL_ENV ]; then
+  command pip --require-virtualenv "$@"
+  if [ "$?" -ne 0 ]; then
     echo "Did you mean to run \`pip install\` outside of a virtual environment?"
     echo "(if yes, bypass this message by using \`command pip install\` instead)"
-  else
-    command pip "$@"
   fi
 }
