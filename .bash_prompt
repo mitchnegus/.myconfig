@@ -4,7 +4,7 @@
 # Revert to lightweight prompt on low-resource machines
 lite=false
 # Set remote to `true` to show the hostname
-remote=false
+remote=$([[ ! -z "$SSH_TTY" ]] && echo true)
 
 # Abbreviate long directory names
 PROMPT_DIRTRIM=5
@@ -32,7 +32,7 @@ prompt['white_bold']="\x01${COLOR_WHITE_FG_BOLD@E}\x02"
 
 _form_prompt_line1() {
   local _prompt_open_l1="${prompt['gray']}\342\224\214${prompt['line']}"
-  if [ $remote == true ]; then
+  if [[ $remote == true ]]; then
     local _prompt_user="[${prompt['lime']}\u${prompt['green']}@\h${prompt['gray']}]${prompt['line']}"
   else
     local _prompt_user="[${prompt['green']}\u${prompt['gray']}]${prompt['line']}"
