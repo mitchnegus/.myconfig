@@ -14,6 +14,7 @@
 	combine = "!: pull && f() { git checkout ${2} && git merge ${1}/${2}; }; f"
 	stash-apply-file = "!f() { git diff stash@{0} -- $1 | git apply -R; }; f"
 	rebase-multiple = "!: rebase && git-rebase-multiple"
+	wipe-remote-branch = "!: branch && f() { git branch -dr $(git branch -rl *${1}*); }; f"
 [init]
 	defaultBranch = main
 [log]
