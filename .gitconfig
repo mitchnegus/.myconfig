@@ -19,9 +19,17 @@
 	defaultBranch = main
 [log]
 	date = local
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[difftool "vimdiff"]
+	cmd = vimdiff \"$LOCAL\" \"$REMOTE\"
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
+[mergetool "vimdiff"]
+	cmd = vimdiff \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
 [rebase]
 	updateRefs = true
 [interactive]
