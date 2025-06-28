@@ -26,7 +26,7 @@ alias lh='ls -lh'
 alias grep='grep $GREP_OPTIONS_'
 alias back='cd -'
 alias bashrcload='source $HOME/.bashrc'
-alias rmd='render-markdown'
+alias md='render-markdown'
 
 # Abbreviate commonly used grep options
 alias grepr='grep -r'
