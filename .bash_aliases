@@ -42,6 +42,7 @@ alias activenv='activate-nearest-env'
 alias flw='cd $(dirname $_.)'
 alias please='sudo $(fc -ln -1)'
 alias hardclear='printf "\33c\e[3J"'
+alias jsonf='python3 -m json.tool'
 
 # Git aliases
 alias gshow='git show'
