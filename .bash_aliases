@@ -39,7 +39,7 @@ alias jnb='jupyter notebook'
 alias activenv='activate-nearest-env'
 
 # Miscellaneous (neat) tricks
-alias flw='cd $(dirname $_.)'
+alias flw='cd $(dirname $_)'
 alias please='sudo $(fc -ln -1)'
 alias hardclear='printf "\33c\e[3J"'
 alias jsonf='python3 -m json.tool'
@@ -47,6 +47,7 @@ alias jsonf='python3 -m json.tool'
 # Git aliases
 alias gshow='git show'
 alias gsta='git status'
+alias gsts='git status -s'
 alias gbra='git branch'
 alias glog='git log'
 alias glogg='git logg'
