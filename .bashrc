@@ -81,6 +81,12 @@ cdl() { cd $1; ls; }
 up() { cd $(printf '../%.0s' $(seq 1 ${1:-1})); }
 
 
+config() {
+  local git=$(which git) || { echo "The Git executable was not found"; return 1; }
+  "$git" --git-dir=$HOME/.myconfig/ --work-tree=$HOME "$@"
+}
+
+
 build-default-venv() {
   if [[ ! -d "$DEFAULT_VENV" ]]; then
     python3 -m venv "$DEFAULT_VENV"
