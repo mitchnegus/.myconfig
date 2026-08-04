@@ -16,14 +16,8 @@ $ config add file.txt
 $ config commit -m "commit message"
 ```
 
-That `config` alias is defined in the `.bash_aliases` file using the command
-
-```bash
-$ alias config='$(which git) --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
-```
-
-By setting the working tree to be in the `$HOME` directory, the configuration files will be checked out into `$HOME` (where the system will go looking for them), rather than the default Git directory `.myconfig`.
-Since the `$HOME` directory is likely to contain files that should not be tracked (e.g. everything that is not a configuration file), it is convenient to hide untracked files in Git status messages:
+The `config` function is defined defined in the repository's `.bashrc` file, and it sets `$HOME` as the work tree location where configuration files will be checked out (as opposed to the default Git directory `.myconfig`).
+Since the `$HOME` directory is likely to contain files that should not be tracked (e.g., everything that is not a configuration file), it is convenient to hide untracked files in Git status messages:
 
 ```bash
 $ config config --local status.showUntrackedFiles no
@@ -41,20 +35,25 @@ To install these configuration files on your system, first clone the bare repo i
 $ git clone --bare <git_repo_source> $HOME/.myconfig
 ```
 
-Since the `config` alias is defined in the `.bash_aliases` file (or potentially overwritten using a local `.bash_aliases` files), define the alias immediately after cloning.
+Since the `config` alias is defined in the `.bashrc` file and is not yet loaded, define this alias immediately after cloning:
 
 ```bash
 $ alias config='$(which git) --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 ```
 
-Checkout the files to the work tree in the `$HOME` directory, being cautious not to overwrite existing files.
-Git will warn you before overwriting existing files.
+Checkout and run the simple install script.
+This will checkout the files to the work tree in the `$HOME` directory, being cautious not to overwrite existing files.
 
 ```bash
-$ config checkout
+$ config checkout HEAD -- .myconfig.install
+$ ./.myconfig.install
 ```
 
-If conflicting files are present, either move them to a new location, or add them to the Git index (`config add <conflicting-file>`) before stashing them and comparing them to the commited versions that will be checked out from the repository.
+Git will warn you before overwriting existing files.
+If conflicting files are identified, either move them to a new location, or add them to the Git index (`config add <conflicting-file>`) before stashing them and comparing them to the commited versions that will be checked out from the repository.
+Then re-run the install script.
+
+The following steps should be automatically handled by the install script; however, they are each fully explained here for completeness.
 
 
 ### Configuring the Configurations
