@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Install my configuration. This script clones
+# should be run after the `.myconfig`
+# repository has been cloned as a bare repo and checked out into the user's
+# home directory.
+
+set -euo pipefail
+
+CONFIG_CMD="$(which git) --git-dir=$HOME/.myconfig/ --work-tree=$HOME"
+PRESERVATION_SUFFIX="myconfig.tmp"
+
+
+preserve_files() {
+  local files="$1"
+
+  for file in "${files[@]}"; do
+    if [[ -f "$file" ]]; then
+      mv "$file" "$file.$PRESERVATION_SUFFIX"
+    fi
+    echo "Existing file \`$file\` would conflict; check the stash for differences"
+  done
+}
+
+
+restore_files() {
+  local files="$1"
+  for file in "${files[@]}"; do
+    if [[ -f "${file}.$PRESERVATION_SUFFIX" ]]; then
+      mv "$file.$PRESERVATION_SUFFIX" "$file"
+    fi
+  done
+}
+
+
+# Include the modular Git configurations in the global config
+git config --global include.path "~/.gitconfig-base"
+
+# Ensure that common original files is not overwritten
+PRESERVATION_FILES=(
+  "$HOME/.bashrc"
+)
+preserve_files $PRESERVATION_FILES
+
+# Checkout the entire configuration repository
+$CONFIG_CMD checkout
+
+# Replace common files and stash the differences
+restore_files $PRESERVATION_FILES
+$CONFIG_CMD stash push -m "Original configuration files"
+
+# Ensure submodules are cloned
+$CONFIG_CMD submodule update --init --recursive
+# Do not show all untracked files in the home directory
+$CONFIG_CMD config --local status.showUntrackedFiles no
+
+echo
+echo "To disallow pushing local-specific branches, run:"
+echo
+echo "    config config --local branch.<local_branch_name>.remote no_push"
+echo
+echo "Configuration installation complete. Reload your terminal."
