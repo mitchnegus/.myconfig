@@ -81,6 +81,9 @@ cdl() { cd $1; ls; }
 up() { cd $(printf '../%.0s' $(seq 1 ${1:-1})); }
 
 
+# Remove conflicting aliases
+[[ $(type -t config) == "alias" ]] && unalias config
+
 config() {
   local git=$(which git) || { echo "The Git executable was not found"; return 1; }
   "$git" --git-dir=$HOME/.myconfig/ --work-tree=$HOME "$@"
