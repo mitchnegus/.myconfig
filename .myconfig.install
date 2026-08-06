@@ -47,7 +47,7 @@ $CONFIG_CMD checkout
 
 # Replace common files and stash the differences
 restore_files $PRESERVATION_FILES
-$CONFIG_CMD stash push -m "Original configuration files"
+$CONFIG_CMD stash push -m "Original configuration files" 2> /dev/null
 
 # Ensure submodules are cloned
 $CONFIG_CMD submodule update --init --recursive
