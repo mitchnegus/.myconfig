@@ -68,7 +68,7 @@ declare -F __git_ps1 > /dev/null || source "$git_util_dir/git-prompt.sh"
 if [ -z $(which diff-highlight) ] && [ -f "$git_diff_highlight_dir/Makefile" ]; then
   echo "An executable for \`diff-highlight\` was not found in the PATH;" \
        "attempting to build it from the local Git source repository"
-  make -C $git_diff_highlight_dir --no-print-directory
+  make -C $git_diff_highlight_dir --no-print-directory > /dev/null 2>&1
   ln -s $git_diff_highlight_dir/diff-highlight $HOME/bin/diff-highlight
 fi
 
