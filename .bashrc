@@ -29,11 +29,11 @@ export LS_COLORS='di=32:ln=35:so=32:pi=33:ex=1;32:bd=34;46:cd=34;43:su=30;41:sg=
 # Deactivate the default Python virtual environment prompt
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# Add local scripts to the path
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
 # Set parameters for a local default Python virtual environment
 export DEFAULT_VENV="$HOME/.default-venv"
+
+# Add local scripts to the path
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 
 #
