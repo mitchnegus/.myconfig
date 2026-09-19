@@ -83,11 +83,24 @@ up() { cd $(printf '../%.0s' $(seq 1 ${1:-1})); }
 
 # Remove conflicting aliases
 [[ $(type -t config) == "alias" ]] && unalias config
+# Set user-configuration paths
+_myconfig_git_dir="$HOME/.myconfig"
+_myconfig_work_tree="$HOME"
 
 config() {
   local git=$(which git) || { echo "The Git executable was not found"; return 1; }
-  "$git" --git-dir=$HOME/.myconfig/ --work-tree=$HOME "$@"
+  "$git" --git-dir=$_myconfig_git_dir --work-tree=$_myconfig_work_tree "$@"
 }
+
+_config_completion() {
+  local -x GIT_DIR="$_myconfig_git_dir"
+  local -x GIT_WORKTREE="$_myconfig_work_tree"
+  # Pass execution to the Git master completion wrapper
+  __git_wrap__git_main "$@"
+}
+
+# Apply Git completion to the `config` function
+complete -o bashdefault -o default -o nospace -F _config_completion config
 
 
 build-default-venv() {
