@@ -85,6 +85,19 @@ cdl() { cd $1; ls; }
 up() { cd $(printf '../%.0s' $(seq 1 ${1:-1})); }
 
 
+_require_command() {
+  local cmd="$1"
+  if [[ -z "$cmd" ]]; then
+    echo "ERROR: No command specified"
+    return 1
+  fi
+  if ! command -v "$cmd" > /dev/null 2>&1; then
+    echo "ERROR: \`$cmd\` not found" >&2
+    return 1
+  fi
+}
+
+
 # Remove conflicting aliases
 [[ $(type -t config) == "alias" ]] && unalias config
 # Set user-configuration paths
@@ -92,8 +105,8 @@ _myconfig_git_dir="$HOME/.myconfig"
 _myconfig_work_tree="$HOME"
 
 config() {
-  local git=$(which git) || { echo "The Git executable was not found"; return 1; }
-  "$git" --git-dir=$_myconfig_git_dir --work-tree=$_myconfig_work_tree "$@"
+  _require_command git
+  git --git-dir=$_myconfig_git_dir --work-tree=$_myconfig_work_tree "$@"
 }
 
 _config_completion() {
@@ -108,6 +121,7 @@ complete -o bashdefault -o default -o nospace -F _config_completion config
 
 
 build-default-venv() {
+  _require_command python3
   if [[ ! -d "$DEFAULT_VENV" ]]; then
     python3 -m venv "$DEFAULT_VENV"
   fi
