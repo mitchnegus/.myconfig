@@ -4,18 +4,31 @@
 [color]
 	ui = auto
 [alias]
-	alias = "! git config --get-regexp ^alias\\. | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /'"
+	# Git configuration help (show repo root, list all aliases, etc.)
+	root = rev-parse --show-toplevel
+	alias = "!git config --get-regexp '^alias\\.' | sed -e 's/^alias\\.//' -e 's/\\ /\\ =\\ /' | sort"
+	# Manage staging
+	unstage = "!: restore; f() { git restore --staged \"${1:-.}\"; }; f"
+	oust = rm -r --cached
+	# Amend commits
 	amend = commit --amend --no-edit
-	oust = rm --cached
-	unstage = reset HEAD --
+	reword = commit --amend --only
+	# Display commit information and history
 	brief = show -s --oneline
-	last = log -1 HEAD
+	last = log -1 HEAD --stat
 	logg = log --graph --pretty=short --all --abbrev-commit --oneline --decorate
-	combine = "!: pull && f() { git checkout ${2} && git merge ${1}/${2}; }; f"
-	stash-apply-file = "!f() { git diff stash@{0} -- $1 | git apply -R; }; f"
-	rebase-multiple = "!: rebase && git-rebase-multiple"
-	amendrebase = "!: rebase && f() { git amend && git rebase --onto HEAD HEAD@{1} ${1}; }; f"
-	wipe-remote-branch = "!: branch && f() { git branch -dr $(git branch -rl *${1}*); }; f"
+	# Manage branch references
+	search-remote-branches = "!: branch; f() { git branch -r --format='%(refname:short)' --list \"*${1:-..}*\"; }; f"
+	prune-tracking = "!: branch; f() { git branch -dr $(git search-remote-branches \"$1\"); }; f"
+	sync-local = "!: pull; f() { git checkout \"$2\" && git merge -ff-only \"$1/$2\"; }; f"
+	sync-remote = "!: pull; f() { git fetch \"$1\" && git sync-local \"$1\" \"$2\"; }; f"
+	# Rewriting history
+	pushf = push --force-with-lease --force-if-includes
+	stash-apply-file = "!f() { git -C \"$GIT_PREFIX\" restore --source=\"stash@{${2:-0}}\" -- \"${1?path required}\"; }; f"
+	rebase-multiple = "!: rebase; git-rebase-multiple"
+	amendrebase = "!echo 'Prefer `git history fixup` (https://git-scm.com/docs/git-history)'"
+	# In case of emergency...
+	flee = "!f() { git checkout -b \"$(date +%Y%m%d-%H%M%S)-wip\" && git commit --no-verify -am \"WIP: I'll be back...\" && git push origin HEAD; }; f"
 [init]
 	defaultBranch = main
 [log]
